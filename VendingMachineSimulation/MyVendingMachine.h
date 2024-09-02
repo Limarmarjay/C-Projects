@@ -13,7 +13,6 @@ public:
     Pepsi* pepsi;
 public:
     MyVendingMachine();
-    ~MyVendingMachine();
     
     bool is_vending_machine_on;
     int dimes_in_container, nickels_in_container, quarters_in_container, 
@@ -24,7 +23,7 @@ public:
     // Methods for Vending Machine
     void refill();
     void displayMenuOptions();
-    // void displayPaymentOptions();
+    string getValidInput();
     void displayPaidAmount(double);
     bool isOn();
     void turnOn();

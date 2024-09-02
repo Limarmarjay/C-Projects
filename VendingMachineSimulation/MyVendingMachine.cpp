@@ -3,6 +3,8 @@
 // #include <windows.h>
 #include <iostream>
 #include <iomanip>
+#include <limits>
+using namespace std;
 
 MyVendingMachine::MyVendingMachine() 
     : is_vending_machine_on(false), total_sales(0), hours(0), amount_paid(0),
@@ -15,13 +17,6 @@ MyVendingMachine::MyVendingMachine()
     pepsi = new Pepsi();
 }
 
-MyVendingMachine::~MyVendingMachine() {
-    delete coke;
-    delete doritos;
-    delete snickers;
-    delete chexmix;
-    delete pepsi;
-}
 void MyVendingMachine::refill() {
     coke->refillEachItem();
     doritos->refillEachItem();
@@ -44,23 +39,40 @@ void MyVendingMachine::displayMenuOptions() {
         cout << left << setw(5) << "C" << setw(15) << "Snickers" << "$" << setw(7) << fixed << setprecision(2) << snickers->sell_price << endl;
         cout << left << setw(5) << "D" << setw(15) << "Chex Mix" << "$" << setw(7) << fixed << setprecision(2) << chexmix->sell_price << endl;
         cout << left << setw(5) << "E" << setw(15) << "Pepsi" << "$" << setw(7) << fixed << setprecision(2) << pepsi->sell_price << endl;
-        cout << "Please enter any option of your choice from A-E: ";
-        string user_choice;
-        try {
-            cin >> user_choice;
-            if (!user_choice.empty()) {
-                char upper = toupper(user_choice[0]);
-                string selection(1, upper);  // Convert char to string
-                selectItem(selection);
-            } else {
-                throw runtime_error("Empty input");
-            }
-        }
-        catch (const exception& e) {
-            cout << "An Error Occurred: " << e.what() << ". Please try again..." << endl;
-        }
+        
+        string selection = getValidInput();
+        selectItem(selection);
         hours++;
     }
+}
+
+string MyVendingMachine::getValidInput() {
+    string user_choice;
+    bool valid = false;
+
+    do {
+        cout << "Please enter any option of your choice from A-E: ";
+        getline(cin, user_choice);
+
+        if (!user_choice.empty()) {
+            char upper = toupper(user_choice[0]);
+            if (upper >= 'A' && upper <= 'E') {
+                valid = true;
+                return string(1, upper);  // Return uppercase single-character string
+            } else {
+                cout << "Invalid input. Please enter a letter between A and E." << endl;
+            }
+        } else {
+            cout << "Empty input. Please enter a letter." << endl;
+        }
+
+        if (!valid) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    } while (!valid);
+
+    return "";
 }
 
 void MyVendingMachine::displayPaidAmount(double amount) {
