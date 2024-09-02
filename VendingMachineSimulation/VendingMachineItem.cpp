@@ -48,7 +48,6 @@ Snickers::Snickers() : VendingMachineItem(0.55) {
 
 // ChexMix constructor
 ChexMix::ChexMix() : VendingMachineItem(0.60) {
-    sell_price = 0.60;
     cost_price = 0.35 * sell_price;
     labor_cost = 0.25 * sell_price;
     overhead = 0.05 * sell_price;
@@ -56,7 +55,6 @@ ChexMix::ChexMix() : VendingMachineItem(0.60) {
 
 // Pepsi constructor
 Pepsi::Pepsi() : VendingMachineItem(0.90) {
-    sell_price = 0.90;
     cost_price = 0.35 * sell_price;
     labor_cost = 0.25 * sell_price;
     overhead = 0.05 * sell_price;
