@@ -72,16 +72,8 @@ VendingMachine::VendingMachine() //empty constructor just like it was declared
     this->oneDollarBills = 20;
     this->fiveDollarBills = 20;
     this->isOn = false;
-    this->items = 
-    {
-        VendingMachineItem("Coke", 0.95, 30),
-        VendingMachineItem("Doritos", 0.75, 30),
-        VendingMachineItem("Snickers", 0.55, 30),
-        VendingMachineItem("Chex Mix", 0.60, 30),
-        VendingMachineItem("Pepsi", 0.90, 30)
-    };
+    this->items = { VendingMachineItem("Coke", 0.95, 30), VendingMachineItem("Doritos", 0.75, 30), VendingMachineItem("Snickers", 0.55, 30), VendingMachineItem("Chex Mix", 0.60, 30), VendingMachineItem("Pepsi", 0.90, 30)};
 }
-
 
 void VendingMachine::displayMenu() {
     cout << endl;
@@ -181,7 +173,7 @@ double VendingMachine::acceptCoins() {
     char choice;
     do {
         cout << "This machine accepts Nickels, Dimes, Quarters, One dollar bills, and Five dollar Bills\n";
-        cout << "Please enter one of the following: N, D, Q, O, F or C to Complete Purchase: ";
+        cout << "Please enter one of the following: N, D, Q, O, F, C to Complete Purchase or R to view Records: ";
         cin >> choice;
         choice = toupper(choice);
         
@@ -335,19 +327,21 @@ double VendingMachine::computeProfit()
 
 void VendingMachine::displaySalesRecord() 
 {
+    cout << endl;
     cout << "Vending Machine Daily Transactions Record:\n";
     vector<double> dailySales = calculateDailySalesPerItem();
     int index;
     for (index = 0; index < items.size(); index++) 
     {
-        cout << "Total daily sales for" << items[index].item_name << " = $" << fixed << setprecision(2) << dailySales[index] << endl;
+        cout << "Total daily sales for " << items[index].item_name << " = $" << fixed << setprecision(2) << dailySales[index] << endl;
     }
-
-    cout << "\nTotal sales = $" << calculateTotalSales() << endl;
-    cout << "Total cost = $" << computeTotalCost() << endl;
-    cout << "Labor cost = $" << computeLaborCost() << endl;
-    cout << "Overhead = $" << computeOverhead() << endl;
-    cout << "Profit = $" << computeProfit() << endl;
+    
+    cout << endl;
+    cout << "Total sales for all Items = $" << calculateTotalSales() << endl;
+    cout << "Total cost of all items = $" << computeTotalCost() << endl;
+    cout << "Daily Labor cost = $" << computeLaborCost() << endl;
+    cout << "Daily Overhead = $" << computeOverhead() << endl;
+    cout << "Daily Profit = $" << computeProfit() << endl;
 }
 
 void VendingMachine::run() 
@@ -369,11 +363,16 @@ void VendingMachine::run()
 
     int choice;
     do {
-        cout << "Press 1 to purchase an item of your choice or 0 to exit: ";
+        cout << endl;
+        cout << "Press 2 to purchase an item of your choice, 1 to view Records, or 0 to exit: ";
         cin >> choice;
-        if (choice == 1) 
+        if (choice == 2) 
         {
             selectItem();
+        }
+        else if (choice == 1) 
+        {
+            displaySalesRecord();
         }
         else if (choice == 0) 
         {
@@ -383,7 +382,7 @@ void VendingMachine::run()
         else 
         {
             cout << "Invalid Choice!\n";
-            cout << "Please either enter 1 or 0" << endl;
+            cout << "Please press one of the provided buttons" << endl;
         }
     } while (isOn);
 }
