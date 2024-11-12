@@ -161,7 +161,7 @@ public:
         cout << setw(8) << "Savings Balance: " << Savings_Balance << "\n";
     }
 
-    ~Customer() override {};
+    ~Customer() {};
 };
 
 int main() 
